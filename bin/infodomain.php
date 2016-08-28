@@ -13,10 +13,10 @@ include_once('Protocols/EPP/eppConnection.php');
 include_once('ZACR/cozaEppConnection.php');
 
 // Base EPP commands: hello, login and logout
-include_once('bin/base.php');
+include_once('ZACR/zacrBase.php');
 
 # Include registrar functions aswell
-require_once ROOTDIR . '/dbconnect.php';
+require_once ROOTDIR . '/init.php';
 require_once ROOTDIR . '/includes/functions.php';
 require_once ROOTDIR . '/includes/registrarfunctions.php';
 

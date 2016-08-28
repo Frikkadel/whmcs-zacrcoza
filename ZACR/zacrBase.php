@@ -18,7 +18,7 @@
 
 class zacrBase {
 	// The connection handling class
-	protected eppConnection = null;
+	protected $eppConnection = null;
 	
 	public function __construct( $params ) {
 		$this->eppConnection = new cozaEppConnection($params);
