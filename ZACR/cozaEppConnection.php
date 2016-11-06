@@ -25,11 +25,11 @@ class cozaEppConnection extends eppConnection
         parent::setTimeout(5);
         parent::setLanguage('en');
         parent::setVersion('1.0');
-		if ($params['SSL']) {
-			parent::enableCertification($params['Certificate'], $params['Passphrase']);
-		}
-		parent::addService('urn:ietf:params:xml:ns:domain-1.0', 'domain');
-		parent::addService('urn:ietf:params:xml:ns:contact-1.0', 'contact');
+        if ($params['SSL']) {
+            parent::enableCertification($params['Certificate'], $params['Passphrase']);
+        }
+        parent::addService('urn:ietf:params:xml:ns:domain-1.0', 'domain');
+        parent::addService('urn:ietf:params:xml:ns:contact-1.0', 'contact');
 		
         #parent::addExtension('sidn-epp-ext','http://rxsd.domain-registry.nl/sidn-ext-epp-1.0');
         #parent::enableDnssec();
