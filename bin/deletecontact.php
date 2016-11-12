@@ -37,11 +37,9 @@ $params = array(
  */
 
 
-if ($argc <= 3) {
-    echo "Usage: updatecontact.php <handle>\n";
-    echo "Please enter contact handle, field and value to update\n";
-    echo "Fields:\n";
-    echo "\temail\n\ttelephone\n\tnameorganization\n\taddress1\n\taddress2\n\tpostcode\n\tcity\n\tcountry\n";
+if ($argc <= 1) {
+    echo "Usage: deletecontact.php <handle>\n";
+    echo "Please enter contact handle to delete\n\n";
     die();
 }
 

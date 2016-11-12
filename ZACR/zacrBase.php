@@ -58,6 +58,36 @@ class zacrBase {
         return false;
     }
 
+    public function createContact($email, $telephone, $name, $organization, $address1, $address2, $postcode, $city, $country) {
+        $req = new eppCreateContactRequest(
+            new eppContact(new eppContactPostalInfo($name, $city, $country, $organization, $address1, $address2, $postcode), $email, $telephone)
+        );
+        if ((($response = $this->eppConnection->writeandread($req)) instanceof eppCreateResponse) && ($response->Success())) {
+            return $response;
+        }
+        return false;
+    }
+
+    public function getContact($handle) {
+        $req = new eppInfoContactRequest(
+            new eppContactHandle($handle)
+        );
+        if ((($response = $this->eppConnection->writeandread($req)) instanceof eppInfoContactResponse) && ($response->Success())) {
+            return $response;
+        }
+        return false;
+    }
+
+    public function deleteContact($handle) {
+        $req = new eppDeleteRequest(
+            new eppContactHandle($handle)
+        );
+        if ((($response = $this->eppConnection->writeandread($req)) instanceof eppDeleteResponse) && ($response->Success())) {
+            return $response;
+        }
+        return false;
+    }
+
     public function setNameServers($domain, $params) {
         $response = $self->domainInfo($domain);
         if ($response && $response instanceof eppInfoDomainResponse) {
