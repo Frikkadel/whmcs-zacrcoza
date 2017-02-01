@@ -25,7 +25,7 @@ include_once('ZACR/zacrBase.php');
 # Grab module parameters
 #$params = getregistrarconfigoptions('ZACRcoza');
 
-include_once('bin\credentials.php');
+include_once('bin/credentials.php');
 
 /*
  * This script checks for the availability of domain names
@@ -52,7 +52,7 @@ try {
     echo "ERROR: " . $e->getMessage() . "\n\n";
 }
 
-function infodomain($response) {
+function infodomain($conn, $response) {
     try {
         /* @var $response eppInfoDomainResponse */
         $d = $response->getDomain();
