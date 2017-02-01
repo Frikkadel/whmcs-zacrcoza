@@ -24,15 +24,8 @@ include_once('ZACR/zacrBase.php');
 #require_once ROOTDIR . '/includes/registrarfunctions.php';
 # Grab module parameters
 #$params = getregistrarconfigoptions('ZACRcoza');
-$params = array(
-    'Server' => 'coza-otande.registry.net.za',
-    'Port' => '3121',
-    'Username' => 'frikkadel',
-    'Password' => 'd78884ad69',
-    'SSL' => true,
-    'Certificate' => '/home/willo/development/frikkadel/frikkadel/modules/registrars/frikkadel-zacr/cert/epp-2013-03.pem',
-    'Passphrase' => ''
-);
+
+include_once('bin\credentials.php');
 
 /*
  * This script checks for the availability of domain names
