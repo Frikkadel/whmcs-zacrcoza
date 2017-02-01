@@ -41,25 +41,58 @@ if ($argc <= 3) {
     echo "Usage: updatecontact.php <handle>\n";
     echo "Please enter contact handle, field and value to update\n";
     echo "Fields:\n";
-    echo "\temail\n\ttelephone\n\tnameorganization\n\taddress1\n\taddress2\n\tpostcode\n\tcity\n\tcountry\n";
+    echo "\temail\n\ttelephone\n\tname\n\torganization\n\taddress1\n\taddress2\n\tpostcode\n\tcity\n\tcountry\n";
     die();
 }
 
-list(, $handle) = $argv;
+list(, $handle, $field, $value) = $argv;
 
 echo "handle: $handle\n";
 
-echo "Deleting contact\n";
+echo "Updating contact\n";
 
 $conn = new zacrBase($params);
 
 try {
-    $response = $conn->deleteContact($handle);
-    if ($response) {
-        echo "Contact ID: " . $handle . " deleted\n";
-    } else {
-        var_dump($response);
+    $contactResponse = $conn->getContact($handle);
+    $contact = $contactResponse->getContact();
+    switch ($field) {
+        case 'email' : $contactResponse->setEmail($value);
+            break;
+        case 'telephone' : $contactResponse->setVoice($value);
+            break;
+        case 'name' :
+            $postalInfo = $contact->getPostalInfo(0);
+
+            if ($postalInfo instanceof eppContactPostalInfo) {
+                $postalInfo->setName($value);
+            }
+            $contact->setPostalInfo(0, $postalInfo);
+            break;
+        case 'organization' : $contactResponse->setVoice($value);
+            break;
     }
+    echo "ID: " . $contactResponse->getContactId() . "\n";
+    echo "ROID: " . $contactResponse->getContactRoid() . "\n";
+    echo "Client ID: " . $contactResponse->getContactClientId() . "\n";
+    echo "Create Client ID: " . $contactResponse->getContactCreateClientId() . "\n";
+    echo "Update Date: " . $contactResponse->getContactUpdateDate() . "\n";
+    echo "Create Date: " . $contactResponse->getContactCreateDate() . "\n";
+    echo "Status: " . $contact->getStatus() . "\n";
+    echo "Voice #: " . $contact->getVoice() . "\n";
+    echo "Fax #: " . $contact->getFax() . "\n";
+    echo "Email: " . $contact->getEmail() . "\n";
+    $postalInfo = $contact->getPostalInfo(0);
+    echo "Name: " . $postalInfo->getName() . "\n";
+    echo "Street: " . implode(',', $postalInfo->getStreets()) . "\n";
+    echo "City: " . $postalInfo->getCity() . "\n";
+    echo "Postal: " . $postalInfo->getZipcode() . "\n";
+    echo "Province: " . $postalInfo->getProvince() . "\n";
+    echo "Country: " . $postalInfo->getCountrycode() . "\n";
+    echo "Company: " . $postalInfo->getOrganisationName() . "\n";
+    echo "Postal Type: " . $postalInfo->getType() . "\n";
+
+    $res = $conn->updateContact($handle, $contact);
 } catch (eppException $e) {
-    echo $e->getMessage() . "\n";
+    echo "Caught Exception - " . $e->getMessage() . "\n";
 }

@@ -54,7 +54,7 @@ echo "Retrieving info on " . $domainname . "\n";
 $conn = new zacrBase($params);
 
 try {
-    infodomain($conn->domainInfo($domainname));
+    infodomain($conn, $conn->domainInfo($domainname));
 } catch (eppException $e) {
     echo "ERROR: " . $e->getMessage() . "\n\n";
 }
@@ -66,10 +66,12 @@ function infodomain($response) {
         echo "Info domain for " . $d->getDomainname() . ":\n";
         echo "Created on " . $response->getDomainCreateDate() . "\n";
         echo "Last update on " . $response->getDomainUpdateDate() . "\n";
+        ShowContact($conn->getContact($d->getRegistrant()));
         echo "Registrant " . $d->getRegistrant() . "\n";
         echo "Contact info:\n";
         foreach ($d->getContacts() as $contact) {
             echo "  " . $contact->getContactType() . ": " . $contact->getContactHandle() . "\n";
+            ShowContact($conn->getContact($contact->getContactHandle()));
         }
         echo "Nameserver info:\n";
         foreach ($d->getHosts() as $nameserver) {
@@ -79,4 +81,18 @@ function infodomain($response) {
         echo 'ERROR1';
         echo $e->getMessage() . "\n";
     }
+}
+
+function ShowtContact(eppInfoContactResponse $contact) {
+    echo "  Name: {$contact->getContactName()}\n";
+    echo "  Postal Info: {$contact->getContactPostalInfo()}\n";
+    echo "  Postal Type: {$contact->getContactPostalType()}\n";
+    echo "  Street: {$contact->getContactStreet()}\n";
+    echo "  Province: {$contact->getContactProvince()}\n";
+    echo "  Zip: {$contact->getContactZipcode()}\n";
+    echo "  Country: {$contact->getContactCountrycode()}\n";
+    echo "  Voice: {$contact->getContactVoice()}\n";
+    echo "  Fax: {$contact->getContactFax()}\n";
+    echo "  Email: {$contact->getContactEmail()}\n";
+    echo "  Status: {$contact->getContactStatusCSV()}\n";
 }

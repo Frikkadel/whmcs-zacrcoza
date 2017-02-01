@@ -38,21 +38,21 @@ $params = array(
 
 
 if ($argc <= 8) {
-    echo "Usage: createcontact.php <email> <telephone> <name> <organization> <address1> <address2> <postcode> <city> <country>\n";
+    echo "Usage: createcontact.php <email> <telephone> <name> <organization> <address1> <province> <postcode> <city> <country>\n";
     echo "Please enter contact details to create\n\n";
     die();
 }
 
-list(, $email, $telephone, $name, $organization, $address1, $address2, $postcode, $city, $country) = $argv;
+list(, $email, $telephone, $name, $organization, $address1, $province, $postcode, $city, $country) = $argv;
 
-echo "email: $email\ntelephone: $telephone\nname: $name\norganization: $organization\naddress1: $address1\naddress2: $address2\npostcode: $postcode\ncity: $city\ncountry: $country\n";
+echo "email: $email\ntelephone: $telephone\nname: $name\norganization: $organization\naddress1: $address1\naddress2: $province\npostcode: $postcode\ncity: $city\ncountry: $country\n";
 
 echo "Creating contact\n";
 
 $conn = new zacrBase($params);
 
 try {
-    $response = $conn->createContact($email, $telephone, $name, $organization, $address1, $address2, $postcode, $city, $country);
+    $response = $conn->createContact($email, $telephone, $name, $organization, $address1, $province, $postcode, $city, $country);
     echo "Contact ID: " . $response->getContactId() . "\n";
 } catch (eppException $e) {
     echo $e->getMessage() . "\n";

@@ -16,6 +16,14 @@
 # Official Website:
 # https://github.com/Frikkadel/whmcs-zacrcoza
 
+class zacrException extends Exception {
+
+}
+
+class zacrContactException extends zacrException {
+
+}
+
 class zacrBase {
 
     // The connection handling class
@@ -73,6 +81,17 @@ class zacrBase {
             new eppContactHandle($handle)
         );
         if ((($response = $this->eppConnection->writeandread($req)) instanceof eppInfoContactResponse) && ($response->Success())) {
+            return $response;
+        }
+        return false;
+    }
+
+    public function updateContact($handle, eppContact $contact) {
+        $req = new eppUpdateContactRequest(new eppContactHandle($handle), null, null, $contact);
+        if (($response = $this->eppConnection->writeandread($req)) instanceof eppUpdateResponse) {
+            if (!$response->Success()) {
+                throw new zacrContactException($response->getResultReason());
+            }
             return $response;
         }
         return false;
